@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <title>Memory Dump 0x08F </title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #888;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 95vh;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            color: #d93838;
+            font-weight: bold;
+        }
+        .txt{color: #44ff44;}
+
+        .rebootbtn {
+            display: inline-block;
+            margin-top: 40px;
+            color: #555;
+            text-decoration: none;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            background: #000
+        }
+
+        .rebootbtn:hover {background-color: #fff; color:#fff;}
+    </style>
+</head>
+<body>
+    <pre>
+<span class = "highlight">*** STOP: 0X0000008F (UNRECOVERABLE_FRAGMENT)</span>
+
+Dumping physical memory to console...
+FILE: phantom_node.log
+
+<span class="txt">Digital signals toh perfect 1 aur 0 mein aate hain,</span>
+<span class="txt">Par humare connection mein analog noise kyu badh jaate hain?</span>
+<span class="txt">Breadboard pe circuit toh ekdum solid lagaya tha,</span>
+<span class="txt">Phir yeh communication gap kisne bich mein fasaya tha?</span>
+
+<span class="txt">Ping karta hoon roz, par TTL expire ho jata hai,</span>
+<span class="txt">Tera server online hoke bhi, packets drop kar jata hai.</span>
+<span class="txt">Shayad mere Tx aur tere Rx ki baud rate alag ho gayi,</span>
+<span class="txt">Ya is cold boot mein, humari purani memory corrupt ho gayi.</span>
+
+<span class="txt">Koi acknowledgement bit wapas aati hi nahi,</span>
+<span class="txt">Lagta hai teri frequency ab mujhse match khaati hi nahi.</span>
+<span class="txt">Multisim mein toh sab waveform perfect dikhte the,</span>
+<span class="txt">Reality ke hardware mein aake hum dono <span class="highlight">short-circuit</span> ho gaye.</span>
+
+Physical memory dump complete.
+Contact your system administrator or restart node.
+    </pre>
+    <a href="index.html" class="rebootbtn">./restart.sh</a>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <title>ttyS0 - Optics Diagnostic </title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #44ff44;
+            font-family: 'Courier-New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #mainframe {
+            border-left: 2px solid #33ff33;
+            padding-left: 15px;
+            max-width: 800px;
+            margin: 10px auto;
+            min-height: 70vh;
+        }
+
+        .logentry {
+            margin: 3px 0;
+            line-height: 1.4cm;
+            font-size: 0.95rem;
+        }
+
+        .log-warning {
+            color: #d4a017
+        }
+
+        .logerror {
+            color: #d93838;
+            background: #2a0000;
+            display: inline-block;
+        }
+
+        .overlay-txt{
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            font-size:0.75rem;
+            color: #fff;
+            background: #000;
+            padding: 2px;
+        }
+
+        #vid-container{
+            margin: 20px 0;
+            display:none;
+            position: relative;
+            width: 320px;
+        }
+
+        #opticsfeed{
+            width: 100%;
+            height: 240px;
+            background: #111;
+            filter: url(#sensorglitch);
+            border: 1px solid #44ff44;
+        }
+
+        #panic-lnk{
+            display:none;
+            margin-top: 30px;
+            color: #d93838;
+            text-decoration: none;
+            border: 1px solid #d93838;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        #panic-lnk:hover{
+            background: #d93838;
+            color: #000;
+        }
+    </style>
+</head>
+
+
+<body>
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <filter id="sensorglitch">
+                <feColorMatrix type="matrix" values="
+                                      0 0 0 0 0
+                                      0 1.5 0 0 -0.2
+                                      0 0 0 0 0
+                                      0 0 0 1 0" />
+                <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" result="noise"/>
+                <feComposite operator="in" in="SourceGraphic" in2="noise"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <main class = "mainframe">
+        <div id="tty-output"></div>
+        <div id="vid-container">
+            <video id="opticsfeed" autoplay muted playsinline></video>
+            <div class="overlay-txt">REC // SENSOR ANAMOLY</div>
+        </div>
+        <a href="dump.html" id="panic-lnk">[KERNEL PANIC: DUMP CORE TO 0x08F]</a>
+    </main>
+
+    <script>
+        const bootInstructions = [{ msg: "[SYS] Booting Linux kernel 6.1.21-v8+", type: "logentry", delay: 400 },
+            { msg: "[OK] Mounting root filesystem...", type: "logentry", delay: 300 },
+            { msg: "[WARN] I2C Bus 1 SDA floating - check physical node connection.", type: "log-warning", delay: 800 },
+            { msg: "[OK] Hardware ADCs mapping complete.", type: "logentry", delay: 200 },
+            { msg: "[SYS] Probing /dev/video0 for optical telemetry...", type: "logentry", delay: 600 },
+            { msg: "[REQ] Requesting v4l2 user-space access...", type: "logentry", delay: 50 },
+            { action: "INIT_CAMERA", delay: 1000 },
+            { msg: "[WARN] Unrecognized entity traversing optical plane.", type: "log-warning", delay: 2000 },
+            { msg: "[ERR] SEGFAULT at 0x00A1B0. Core dumped.", type: "logerror", delay: 400 },
+            { action: "TRIGGER_CRASH", delay: 0 }
+        ];
+
+        const tty = document.getElementById("tty-output");
+        let instructionPointer = 0;
+
+        function appendLog(text, className) {
+            const node = document.createElement("div");
+            node.className = 'logentry' + className;
+            node.textContent = text;
+            tty.appendChild(node);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function processQueue() {
+            if (instructionPointer >= bootInstructions.length) return;
+            const currentOp = bootInstructions[instructionPointer];
+            if (currentOp.msg) {
+                appendLog(currentOp.msg, currentOp.type)
+            } 
+            if (currentOp.action === "INIT_CAMERA") {
+                navigator.mediaDevices.getUserMedia({ video: true, audio:false })
+                    .then(function(stream) {
+                        document.getElementById("opticsfeed").srcObject = stream;
+                        document.getElementById("vid-container").style.display = "block";
+                    })
+                    .catch(function(err) {
+                        appendLog("[ERR] Optics Offline: " + err.message, "logerror");
+                    });
+                }
+            if (currentOp.action === "TRIGGER_CRASH") {
+                document.getElementById("panic-lnk").style.display = "inline-block";
+            }
+
+            instructionPointer++;
+
+            if (instructionPointer < bootInstructions.length) {
+                const jitter = Math.random() * 50;
+                setTimeout(processQueue, currentOp.delay + jitter); 
+            }
+        }
+        window.addEventListener('DOMContentLoaded', processQueue);
+    </script>
+</body>
+</html> 

@@ -1,25 +1,33 @@
 # PHANTOM
 
-> An interactive browser-based narrative disguised as a failing Linux terminal. 
+<p align="center">
+  <img width="646" height="271" alt="image" src="https://github.com/user-attachments/assets/8617c62c-6246-472d-ab09-524685498087" />
+  <img width="495" height="588" alt="image" src="https://github.com/user-attachments/assets/ded4f548-2f0e-4154-bb92-6cfb4e0804da" />
+</p>
 
-Built with chaotic energy for the **Hack Club Boba Bash Delhi Offline** event (Dark theme).
+> Built for Hack Club Boba Bash Delhi Offline event themed Dark. 
+
+An interactive browser-based narrative disguised as a failing Linux terminal.
 
 ---
 
-### What is this?
-It looks like your terminal just crashed hard, but if you start poking around and typing commands, you realize you've stumbled into something completely different. It's a mystery narrative told entirely through a fake command line interface.
+## 💡 Inspiration
+Where did this come from? It hit me during a random late-night thought session when I started wondering what a completely broken, glitching terminal interface would feel like if it actually had a hidden story trapped inside it. 
 
-### Demo
-* **Live Demo:** https://boba-bash-olive.vercel.app/
-* **Screenshots:** <img width="646" height="271" alt="image" src="https://github.com/user-attachments/assets/60f9b8c9-b755-47b9-9770-523be226e48d" /><img width="495" height="588" alt="image" src="https://github.com/user-attachments/assets/d922ebc3-9086-4661-bdba-431d2f2fc0bd" />
+## 🔍 What is it?
+At first glance, it looks like your terminal crashed and threw a bunch of random errors. But once you start poking around and typing commands, you realize you've stumbled into an interactive narrative. It blends retro command-line vibes with a mystery story.
 
+## 🚀 Demo
+* **Live Site:** https://boba-bash-olive.vercel.app/
 
+## 🛠️ Technologies & Tools
+* **HTML5 / CSS3** — For the retro, glowing dark-theme terminal layout.
+* **Vanilla JavaScript** — Handles the fake command line parser, glitch effects, and narrative progression.
 
-
-### How to run it locally
-If you want to run it on your machine, just clone the repo and open `index.html` (or fire up a local dev server):
+## 🏃 How to Try It
+Want to run it locally on your machine? Follow these steps:
 
 ```bash
 git clone https://github.com/solitarysoul04/boba-bash.git
 cd boba-bash
-# open index.html or run your favorite local server
+# Open index.html in your favorite browser or fire up a local server
